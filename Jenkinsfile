@@ -15,7 +15,22 @@ pipeline {
       steps{
         script {
           dockerImage = docker.build registry + ":$BUILD_NUMBER"
+          imageid = dockerImage.imageName()
         }
+      }
+    }
+    stage('Scan image') {
+      steps{
+        prismaCloudScanImage ca: '',
+        cert: '',
+        dockerAddress: 'unix:///var/run/docker.sock',
+        image: "$imageid",
+        key: '',
+        logLevel: 'info',
+        podmanPath: '',
+        project: '',
+        resultsFile: 'prisma-cloud-scan-results.json',
+        ignoreImageBuildTime:true
       }
     }
     stage('Deploy Image') {
