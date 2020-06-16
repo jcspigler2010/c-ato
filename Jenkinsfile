@@ -6,11 +6,11 @@ pipeline {
   }
   agent any
   stages {
-    stage('Cloning Git') {
-      steps {
-        git 'git@github.com:jcspigler2010/c-ato.git'
-      }
-    }
+    // stage('Cloning Git') {
+    //   steps {
+    //     git 'git@github.com:jcspigler2010/c-ato.git'
+    //   }
+    // }
     stage('Building image') {
       steps{
         script {
