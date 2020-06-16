@@ -14,7 +14,7 @@ pipeline {
     stage('Building image') {
       steps{
         script {
-          dockerImage = docker.build registry + ":$BUILD_NUMBER"
+          dockerImage = docker.build("jshark2010/node-test:$BUILD_NUMBER", "-f app/Dockerfile .")
           imageid = dockerImage.imageName()
         }
       }
