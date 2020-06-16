@@ -14,7 +14,7 @@ pipeline {
     stage('Building image') {
       steps{
         script {
-          dockerImage = docker.build("$registry/$JOB_NAME:$BUILD_NUMBER", "-f ./app/Dockerfile ./app")
+          dockerImage = docker.build("$registry:$BUILD_NUMBER", "-f ./app/Dockerfile ./app")
           imageid = dockerImage.imageName()
         }
       }
@@ -44,7 +44,7 @@ pipeline {
     }
     stage('Remove Unused docker image') {
       steps{
-        sh "docker rmi $registry:$BUILD_NUMBER"
+        sh "docker rmi $registry/$JOB_NAME:$BUILD_NUMBER"
       }
     }
   }
