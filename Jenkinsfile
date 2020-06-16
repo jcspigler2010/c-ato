@@ -14,7 +14,7 @@ pipeline {
     stage('Building image') {
       steps{
         script {
-          dockerImage = docker.build("$registry/$WORKSPACE:$BUILD_NUMBER", "-f ./app/Dockerfile ./app")
+          dockerImage = docker.build("$registry/$JOB_NAME:$BUILD_NUMBER", "-f ./app/Dockerfile ./app")
           imageid = dockerImage.imageName()
         }
       }
