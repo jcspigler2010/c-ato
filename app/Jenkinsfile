@@ -1,25 +1,35 @@
 pipeline {
+  environment {
+    registry = "jshark2010/node-test"
+    registryCredential = 'dockerhub'
+    dockerImage = ''
+  }
   agent any
-
-  tools {nodejs "node"}
-
   stages {
-
     stage('Cloning Git') {
       steps {
-        git 'https://github.com/gustavoapolinario/node-todo-frontend'
+        git 'https://github.com/gustavoapolinario/microservices-node-example-todo-frontend.git'
       }
     }
-
-    stage('Install dependencies') {
-      steps {
-        sh 'npm install'
+    stage('Building image') {
+      steps{
+        script {
+          dockerImage = docker.build registry + ":$BUILD_NUMBER"
+        }
       }
     }
-
-    stage('Test') {
-      steps {
-         sh 'npm test'
+    stage('Deploy Image') {
+      steps{
+        script {
+          docker.withRegistry( '', registryCredential ) {
+            dockerImage.push()
+          }
+        }
+      }
+    }
+    stage('Remove Unused docker image') {
+      steps{
+        sh "docker rmi $registry:$BUILD_NUMBER"
       }
     }
   }
