@@ -33,6 +33,11 @@ pipeline {
         ignoreImageBuildTime:true
       }
     }
+    stage('Publish results') {
+      steps{
+        prismaCloudPublish resultsFilePattern: "$registry:$BUILD_NUMBER-prisma-results.json"
+      }
+    }
     stage('Deploy Image') {
       steps{
         script {
