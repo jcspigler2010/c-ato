@@ -8,7 +8,7 @@ pipeline {
   stages {
     stage('Cloning Git') {
       steps {
-        git 'https://github.com/jcspigler2010/c-ato.git'
+        git 'git@github.com:jcspigler2010/c-ato.git'
       }
     }
     stage('Building image') {
