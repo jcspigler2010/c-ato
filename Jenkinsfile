@@ -1,6 +1,7 @@
 pipeline {
   environment {
-    registry = "jshark2010/node-test"
+    image = "node-test"
+    registry = "jshark2010/$image"
     registryCredential = 'dockerhub'
     dockerImage = ''
   }
@@ -29,13 +30,13 @@ pipeline {
         logLevel: 'info',
         podmanPath: '',
         project: '',
-        resultsFile: "$registry-$BUILD_NUMBER-prisma-cloud-scan-results.json",
+        resultsFile: "$image-$BUILD_NUMBER-prisma-cloud-scan-results.json",
         ignoreImageBuildTime:true
       }
     }
     stage('Publish results') {
       steps{
-        prismaCloudPublish resultsFilePattern: "$registry-$BUILD_NUMBER-prisma-cloud-scan-results.json"
+        prismaCloudPublish resultsFilePattern: "$image-$BUILD_NUMBER-prisma-cloud-scan-results.json"
       }
     }
     stage('Deploy Image') {
