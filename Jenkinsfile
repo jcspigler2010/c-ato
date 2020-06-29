@@ -35,7 +35,7 @@ pipeline {
     }
     stage('Publish results') {
       steps{
-        prismaCloudPublish resultsFilePattern: "$registry:$BUILD_NUMBER-prisma-results.json"
+        prismaCloudPublish resultsFilePattern: "$registry:$BUILD_NUMBER-prisma-cloud-scan-results.json"
       }
     }
     stage('Deploy Image') {
