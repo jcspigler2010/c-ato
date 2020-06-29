@@ -29,13 +29,13 @@ pipeline {
         logLevel: 'info',
         podmanPath: '',
         project: '',
-        resultsFile: "$registry:$BUILD_NUMBER-prisma-cloud-scan-results.json",
+        resultsFile: "$registry-$BUILD_NUMBER-prisma-cloud-scan-results.json",
         ignoreImageBuildTime:true
       }
     }
     stage('Publish results') {
       steps{
-        prismaCloudPublish resultsFilePattern: "$registry:$BUILD_NUMBER-prisma-cloud-scan-results.json"
+        prismaCloudPublish resultsFilePattern: "$registry-$BUILD_NUMBER-prisma-cloud-scan-results.json"
       }
     }
     stage('Deploy Image') {
