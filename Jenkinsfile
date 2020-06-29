@@ -29,7 +29,7 @@ pipeline {
         logLevel: 'info',
         podmanPath: '',
         project: '',
-        resultsFile: 'prisma-cloud-scan-results.json',
+        resultsFile: "$registry:$BUILD_NUMBER-prisma-cloud-scan-results.json",
         ignoreImageBuildTime:true
       }
     }
