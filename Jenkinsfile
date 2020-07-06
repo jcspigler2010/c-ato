@@ -1,6 +1,6 @@
 pipeline {
   environment {
-    image = "node-test"
+    image = "node-test-pipeline-example"
     registry = "jshark2010/$image"
     registryCredential = 'dockerhub'
     dockerImage = ''
