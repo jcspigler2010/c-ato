@@ -1,32 +1,38 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[ ]:
+# In[1]:
 
 
 # POAM Template  column headers
-control_vulnerability_description = 2
-security_control_number = 3
-office_org = 4
-security_checks = 5
-resources_required = 6 
-scheduled_completion_date = 7
-milestone_with_completion_dates = 8
-milestone_changes = 9
-source_identifying_vulnerability = 10
-status = 11
-comments = 12
-raw_severity = 13
-devices_affected = 14
-mitigations_inhouse = 15 
-predisposing_conditions = 16
-severity = 17
-relevance_of_threat = 18
-threat_description = 19
-likelihood = 20
-impact = 21
-impact_description = 22
-residual_risk_level = 23
-recommendations = 24
-resulting_residual_risk_after_proposed_mitigations = 25
+control_vulnerability_description_map = "B"
+security_control_number_map = "C"
+office_org_map = "D"
+security_checks_map = "E"
+resources_required_map = "F" 
+scheduled_completion_date_map = "G"
+milestone_with_completion_dates_map = "H"
+milestone_changes_map = "I"
+source_identifying_vulnerability_map = "J"
+status_map = "K"
+comments_map = "L"
+raw_severity_map = "M"
+devices_affected_map = "N"
+mitigations_inhouse_map = "O" 
+predisposing_conditions_map = "P"
+severity_map = "Q"
+relevance_of_threat_map = "R"
+threat_description_map = "S"
+likelihood_map = "T"
+impact_map = "U"
+impact_description_map = "V"
+residual_risk_level_map = "W"
+recommendations_map = "X"
+resulting_residual_risk_after_proposed_mitigations_map = "Y"
+
+
+# In[ ]:
+
+
+
 
