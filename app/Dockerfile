@@ -15,5 +15,4 @@ DOD_COMPONENT="DoD"	\
 SYSTEM_PROJECT_NAME="nodejs-app" \
 DOD_IT_REG_NO="23456" \
 SYSTEM_TYPE="IS Enclave" \
-TEST_LABEL="this is a test" \
-DEEPAK_LABEL="awesomeness"
+POC_PHONE ="123-456-7890" 
