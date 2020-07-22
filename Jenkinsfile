@@ -39,6 +39,11 @@ pipeline {
         prismaCloudPublish resultsFilePattern: "$image-$BUILD_NUMBER-prisma-cloud-scan-results.json"
       }
     }
+    stage('Export POAM') {
+      steps{
+        sh 'python  reporting/exportPoam.py -c https://twistlock-console.oceast.cloudmegalodon.us -u jonathan@clearshark.com -p "clearshark123 -o All -id sha256:c87e9a853fe046f445a1250c62432127db8b8b79e24ce73d68f6e74f86f147ac -t images -m POAM_Export_Sample.xlsx -eu "Jonathan" '
+      }
+    }
     stage('Deploy Image') {
       steps{
         script {
