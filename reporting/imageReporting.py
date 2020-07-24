@@ -19,7 +19,6 @@ import urllib3
 from openpyxl import load_workbook
 from openpyxl import Workbook
 from openpyxl.worksheet.datavalidation import DataValidation
-import json
 from  datetime  import date
 from mapping import  control_vulnerability_description_map, security_control_number_map, office_org_map, security_checks_map, resources_required_map, scheduled_completion_date_map, milestone_with_completion_dates_map, milestone_changes_map, source_identifying_vulnerability_map, status_map, comments_map, raw_severity_map, devices_affected_map, mitigations_inhouse_map, predisposing_conditions_map, severity_map, relevance_of_threat_map, threat_description_map, likelihood_map, impact_map, impact_description_map, residual_risk_level_map, recommendations_map, resulting_residual_risk_after_proposed_mitigations_map
 
