@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[1]:
+# In[45]:
 
 
 #!/usr/bin/env python
@@ -24,14 +24,14 @@ from  datetime  import date
 from mapping import  control_vulnerability_description_map, security_control_number_map, office_org_map, security_checks_map, resources_required_map, scheduled_completion_date_map, milestone_with_completion_dates_map, milestone_changes_map, source_identifying_vulnerability_map, status_map, comments_map, raw_severity_map, devices_affected_map, mitigations_inhouse_map, predisposing_conditions_map, severity_map, relevance_of_threat_map, threat_description_map, likelihood_map, impact_map, impact_description_map, residual_risk_level_map, recommendations_map, resulting_residual_risk_after_proposed_mitigations_map
 
 
-# In[59]:
+# In[100]:
 
 
 class imgRequestError(Exception):
     pass
 
 
-# In[60]:
+# In[101]:
 
 
 def import_poam_template_xlsx(file):
@@ -40,7 +40,7 @@ def import_poam_template_xlsx(file):
     return workbook
 
 
-# In[61]:
+# In[102]:
 
 
 def create_label_dictionary(image):
@@ -55,29 +55,29 @@ def create_label_dictionary(image):
         pass
 
 
-# In[62]:
+# In[103]:
 
 
-def control_vulnerability_description(vulnerability):
+def control_vulnerability_description(key,vulnerability):
 
     return vulnerability['description']
 
 
-# In[63]:
+# In[104]:
 
 
-def office_org(label_dict):
+def office_org(key,label_dict):
     return return_label(label_dict,'OFFICE_ORG')
 
 
-# In[64]:
+# In[105]:
 
 
 def security_control_number():
     pass
 
 
-# In[65]:
+# In[106]:
 
 
 
@@ -90,180 +90,193 @@ def return_label(label_dict,target_label):
         pass
 
 
-# In[66]:
+# In[107]:
 
 
-def security_checks(vulnerability):
+def security_checks(key,vulnerability):
 
     return vulnerability['cve']
 
     pass
 
 
-# In[67]:
+# In[108]:
 
 
-def resources_required():
+def resources_required(key):
 
     return "eMASS populated"
 
     pass
 
 
-# In[68]:
+# In[109]:
 
 
-def return_cve_tags(vulnerability,cve_tag):
-    cve_tag = parse_vulnTagInfos(vulnerability,cve_tag)
+def return_cve_tags(key,vulnerability,cve_tag):
+    cve_tag = parse_vulnTagInfos(key,vulnerability,cve_tag)
     return cve_tag
 
 
-# In[69]:
+# In[110]:
 
 
-def scheduled_completion_date(vulnerability):
-    return parse_vulnTagInfos(vulnerability,"Scheduled Completion Date")
+def scheduled_completion_date(key,vulnerability):
+    return parse_vulnTagInfos(key,vulnerability,"Scheduled Completion Date")
 
 
-# In[70]:
+# In[111]:
 
 
-def milestone_with_completion_dates(vulnerability):
-    return parse_vulnTagInfos(vulnerability,"Milestone with Completion Dates")
+def milestone_with_completion_dates(key,vulnerability):
+    return parse_vulnTagInfos(key,vulnerability,"Milestone with Completion Dates")
 
 
-# In[71]:
+# In[112]:
 
 
-def milestone_changes(vulnerability):
-    return parse_vulnTagInfos(vulnerability,"Milestone Changes")
+def milestone_changes(key,vulnerability):
+    return parse_vulnTagInfos(key,vulnerability,"Milestone Changes")
 
 
-# In[72]:
+# In[113]:
 
 
-def source_identifying_vulnerability():
+def source_identifying_vulnerability(key):
 
     return "Scanned by Prisma Cloud Compute"
 
 
-# In[73]:
+# In[114]:
 
 
-def status(vulnerability):
-    return parse_vulnTagInfos(vulnerability,"Status")
+def status(key,vulnerability):
+    return parse_vulnTagInfos(key,vulnerability,"Status")
 
 
-# In[74]:
+# In[115]:
 
 
-def comments(vulnerability):
-    comments = parse_vulnTagInfos(vulnerability,"Comments")
+def comments(key,vulnerability):
+    comments = parse_vulnTagInfos(key,vulnerability,"Comments")
     return comments
 
 
-# In[75]:
+# In[116]:
 
 
-def raw_severity(vulnerability):
+def raw_severity(key,vulnerability):
 
     raw_severity = vulnerability['severity']
     return raw_severity
 
 
-# In[76]:
+# In[181]:
 
 
-def devices_affected(image):
+def devices_affected(key,image):
     devices_affected = ''
-    for tag in image['tags']:
-        devices_affected+=tag['registry']+"/"+tag['repo']+":"+tag['tag']
+    if key == 'images':
+        try:
+            for tag in image['tags']:
+                devices_affected+=tag['registry']+"/"+tag['repo']+":"+tag['tag']
+        except:
+            pass
+    elif key == 'scans':
+        try:
+            for tag in image['tags']:
+                devices_affected+=tag['registry']+"/"+tag['repo']+":"+tag['tag']
+        except:
+            pass
+    else:
+        print("Woops!")
+        devices_affected = "missed em all"
     return devices_affected
 
 
-# In[94]:
+# In[118]:
 
 
-def mitigations_inhouse(vulnerability):
-    return return_cve_tags(vulnerability,"Mitigations in-house")
+def mitigations_inhouse(key,vulnerability):
+    return return_cve_tags(key,vulnerability,"Mitigations in-house")
 
 
-# In[78]:
+# In[119]:
 
 
-def predisposing_conditions():
+def predisposing_conditions(key):
     pass
 
 
-# In[79]:
+# In[120]:
 
 
-def severity():
+def severity(key):
 
     return "Moderate"
 
 
-# In[80]:
+# In[121]:
 
 
-def relevance_of_threat():
+def relevance_of_threat(key):
     pass
 
 
-# In[81]:
+# In[122]:
 
 
-def threat_description():
+def threat_description(key):
     pass
 
 
-# In[82]:
+# In[123]:
 
 
-def likelihood():
+def likelihood(key):
     pass
 
 
-# In[83]:
+# In[124]:
 
 
-def impact():
+def impact(key):
     pass
 
 
-# In[84]:
+# In[125]:
 
 
-def impact_description():
+def impact_description(key):
     pass
 
 
-# In[85]:
+# In[126]:
 
 
-def residual_risk_level():
+def residual_risk_level(key):
     pass
 
 
-# In[86]:
+# In[127]:
 
 
-def recommendations(vulnerability):
+def recommendations(key,vulnerability):
     recommendations = vulnerability['link']
     return recommendations
 
 
-# In[87]:
+# In[128]:
 
 
-def resulting_residual_risk_after_proposed_mitigations():
+def resulting_residual_risk_after_proposed_mitigations(key):
     pass
 
 
-# In[88]:
+# In[129]:
 
 
-def parse_vulnTagInfos(vulnerability,vulnTag):
+def parse_vulnTagInfos(key,vulnerability,vulnTag):
     try:
         for vulnTagInfo in vulnerability['vulnTagInfos']:
             if vulnTagInfo['name'] == vulnTag:
@@ -272,7 +285,7 @@ def parse_vulnTagInfos(vulnerability,vulnTag):
             pass
 
 
-# In[89]:
+# In[130]:
 
 
 def create_excel_drop_down():
@@ -281,7 +294,7 @@ def create_excel_drop_down():
 
 
 
-# In[90]:
+# In[131]:
 
 
 def define_cell(column_map,row):
@@ -289,105 +302,164 @@ def define_cell(column_map,row):
     return column_map
 
 
-# In[91]:
+# In[173]:
 
 
 def populate_poam_template_xlsx(poam,prisma_json,exported_by):
 
     row = 8
     sheet = poam.active
-    sheet["C2"] = date.today()
-    sheet["C3"] = exported_by
 
-    if prisma_json['images']:
+    for key, value in prisma_json.items():
 
-        for image in prisma_json['images']:
-            label_dict = create_label_dictionary(image)
+        if key == 'images':
 
-            for vulnerability in image['vulnerabilities']:
+            print("Listing Images")
 
-                sheet["C6"] = return_label(label_dict,'DOD_IT_REG_NO')
-                sheet["C5"] = return_label(label_dict,'SYSTEM_PROJECT_NAME')
-                sheet["J2"] = return_label(label_dict,'SYSTEM_TYPE')
-                sheet["J4"] = return_label(label_dict,'POC_NAME')
-                sheet["J6"] = return_label(label_dict,'POC_EMAIL')
-                sheet["J5"] = return_label(label_dict,'POC_EMAIL')
-                sheet["C4"] = return_label(label_dict,'DOD_COMPONENT')
+            for entity in prisma_json['images']:
 
-                # office_org
-                sheet[office_org_map+str(row)] = office_org(label_dict)
+                label_dict = create_label_dictionary(entity)
 
-    #             # control_vulnerability_description
-                sheet[control_vulnerability_description_map+str(row)] = control_vulnerability_description(vulnerability)
+                for vulnerability in entity['vulnerabilities']:
 
-    #             # scheduled_completion_date
-                sheet[scheduled_completion_date_map+str(row)] = scheduled_completion_date(vulnerability)
+                    vulnerability_poam_data(key,entity,vulnerability,label_dict,row,sheet)
+                    row += 1
 
-    #             # security_control_number
+        if key == 'containers':
+            print("Listing containers")
 
-    #             # security_checks
-                sheet[security_checks_map+str(row)] = security_checks(vulnerability)
+            for entity in prisma_json['containers']:
 
-    #             # resources_required
-                sheet[resources_required_map+str(row)] = resources_required()
+                label_dict = create_label_dictionary(entity)
 
-    #             # milestone_with_completion_dates
-                sheet[milestone_with_completion_dates_map+str(row)] = milestone_with_completion_dates(vulnerability)
+                for vulnerability in entity['vulnerabilities']:
 
-    #             # milestone_changes
-                sheet[milestone_changes_map+str(row)] = milestone_changes(vulnerability)
+                    vulnerability_poam_data(key,entity,vulnerability,label_dict,row,sheet)
+                    row += 1
 
-    #             # source_identifying_vulnerability
-                sheet[source_identifying_vulnerability_map+str(row)] = source_identifying_vulnerability()
+        if key == 'scans':
+            print("Listing scans")
 
-    #             # status
-                sheet[status_map+str(row)] = status(vulnerability)
+            for entity in prisma_json['scans']:
+#                 print(entity['entityInfo']['tags'])
+                label_dict = create_label_dictionary(entity['entityInfo'])
 
-    #             # comments
-                sheet[comments_map+str(row)] = comments(vulnerability)
+                for vulnerability in entity['entityInfo']['vulnerabilities']:
 
-    #             # raw_severity
-                sheet[raw_severity_map+str(row)] = raw_severity(vulnerability)
+                    vulnerability_poam_data(key,entity,vulnerability,label_dict,row,sheet)
 
-    #             # devices_affected
-                sheet[devices_affected_map+str(row)] = devices_affected(image)
+                    row += 1
 
-    #             # mitigations_inhouse
-                sheet[mitigations_inhouse_map+str(row)] = mitigations_inhouse(vulnerability)
+        if key == 'hosts':
+            print("Listing hosts")
 
-    #             # predisposing_conditions
+            for entity in prisma_json['hosts']:
 
-    #             # severity
-    #             drop down
+                label_dict = create_label_dictionary(entity)
 
-    #             # relevance_of_threat
-                # drop down
+                for vulnerability in entity['vulnerabilities']:
 
-    #             # threat_description
-
-    #             # likelihood
-                # dropdown
-
-    #             # impact
-                # dropdown
-
-    #             # impact_description
-
-    #             # residual_risk_level
-                # dropdown
+                    vulnerability_poam_data(key,entity,vulnerability,label_dict,row,sheet)
+                    row += 1
 
 
-    #             # recommendations
-                sheet[recommendations_map+str(row)] = recommendations(vulnerability)
-
-    #             # resulting_residual_risk_after_proposed_mitigations
-
-                row +=1
+    poam_header_data(label_dict,sheet,exported_by)
 
     return poam
 
 
-# In[92]:
+# In[174]:
+
+
+def vulnerability_poam_data(key,entity,vulnerability,label_dict,row,sheet):
+
+            # office_org
+        sheet[office_org_map+str(row)] = office_org(key,label_dict)
+
+#             # control_vulnerability_description
+        sheet[control_vulnerability_description_map+str(row)] = control_vulnerability_description(key,vulnerability)
+
+#             # scheduled_completion_date
+        sheet[scheduled_completion_date_map+str(row)] = scheduled_completion_date(key,vulnerability)
+
+#             # security_control_number
+
+#             # security_checks
+        sheet[security_checks_map+str(row)] = security_checks(key,vulnerability)
+
+#             # resources_required
+        sheet[resources_required_map+str(row)] = resources_required(key)
+
+#             # milestone_with_completion_dates
+        sheet[milestone_with_completion_dates_map+str(row)] = milestone_with_completion_dates(key,vulnerability)
+
+#             # milestone_changes
+        sheet[milestone_changes_map+str(row)] = milestone_changes(key,vulnerability)
+
+#             # source_identifying_vulnerability
+        sheet[source_identifying_vulnerability_map+str(row)] = source_identifying_vulnerability(key)
+
+#             # status
+        sheet[status_map+str(row)] = status(key,vulnerability)
+
+#             # comments
+        sheet[comments_map+str(row)] = comments(key,vulnerability)
+
+#             # raw_severity
+        sheet[raw_severity_map+str(row)] = raw_severity(key,vulnerability)
+
+#             # devices_affected
+        sheet[devices_affected_map+str(row)] = devices_affected(key,entity)
+
+#             # mitigations_inhouse
+        sheet[mitigations_inhouse_map+str(row)] = mitigations_inhouse(key,vulnerability)
+
+#             # predisposing_conditions
+
+#             # severity
+#             drop down
+
+#             # relevance_of_threat
+        # drop down
+
+#             # threat_description
+
+#             # likelihood
+        # dropdown
+
+#             # impact
+        # dropdown
+
+#             # impact_description
+
+#             # residual_risk_level
+        # dropdown
+
+
+#             # recommendations
+        sheet[recommendations_map+str(row)] = recommendations(key,vulnerability)
+
+#             # resulting_residual_risk_after_proposed_mitigations
+
+
+# In[137]:
+
+
+def poam_header_data(label_dict,sheet,exported_by):
+
+    sheet["C2"] = date.today()
+    sheet["C3"] = exported_by
+    sheet["C6"] = return_label(label_dict,'DOD_IT_REG_NO')
+    sheet["C5"] = return_label(label_dict,'SYSTEM_PROJECT_NAME')
+    sheet["J2"] = return_label(label_dict,'SYSTEM_TYPE')
+    sheet["J4"] = return_label(label_dict,'POC_NAME')
+    sheet["J6"] = return_label(label_dict,'POC_EMAIL')
+    sheet["J5"] = return_label(label_dict,'POC_EMAIL')
+    sheet["C4"] = return_label(label_dict,'DOD_COMPONENT')
+
+
+
+# In[138]:
 
 
 def output_poam_xlsx(poam,app,build):
@@ -399,8 +471,10 @@ def output_poam_xlsx(poam,app,build):
     poam.save(filename=filename)
 
 
+# In[184]:
 
-# In[37]:
+
+# In[5]:
 
 
 def parse_args():
@@ -425,6 +499,7 @@ def parse_args():
     p.add_argument('-t','--target',metavar='TL_TARGET',help='Targeted entity type to generate report on (e.g. container image, host, running containers) Options running_container,image,host ')
     p.add_argument('-m','--poam_template',metavar='POAM_TEMP',help='specify xlsx POAM template')
     p.add_argument('-eu','--export_user',metavar='EXPORT_USER',help='User exporting POAM')
+    p.add_argument('-a','--app',metavar='APP',help='Name of App or system being ATO\'d ')
     args = p.parse_args()
 
     # Populate args by env vars if they're set
@@ -479,10 +554,15 @@ def parse_args():
     else:
         arg_errs.append('export_user (-eu, --export_user)')
 
+    if getattr(args,'app',None) is None:
+        args.export_user = raw_input(' ')
+    else:
+        arg_errs.append('app (-a, --app)')
+
     return args
 
 
-# In[97]:
+# In[4]:
 
 
 def get_prisma_data_json(console,user,password,collection,target,entity_id):
@@ -500,7 +580,7 @@ def get_prisma_data_json(console,user,password,collection,target,entity_id):
     return json_return
 
 
-# In[1]:
+# In[6]:
 
 
 def main():
@@ -527,7 +607,7 @@ def main():
         print("Error creating poam: {}".format(e))
 
     try:
-        output_poam_xlsx(new_poam,"mysite-ruby",1)
+        output_poam_xlsx(new_poam,args.app,1)
     except imgReqestError as e:
         print("Error saving poam: {}".format(e))
 

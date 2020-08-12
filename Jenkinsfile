@@ -53,7 +53,7 @@ pipeline {
     }
     stage('Export POAM') {
       steps{
-        sh 'python3 reporting/exportPoam.py -c https://twistlock-console.oceast.cloudmegalodon.us -u jonathan@clearshark.com -p clearshark123! -o All -id sha256:c87e9a853fe046f445a1250c62432127db8b8b79e24ce73d68f6e74f86f147ac -t images -m reporting/POAM_Export_Sample.xlsx -eu "Jonathan Spigler"'
+        sh 'python3 reporting/exportPoam-0.1.3.py -c https://twistlock-console.oceast.cloudmegalodon.us -u jonathan@clearshark.com -p clearshark123! -o "ATO:ATO-06292020" -id "" -t images -m reporting/POAM_Export_Sample.xlsx -eu "Jonathan Spigler" -a "jshark"'
       }
     }
     stage('Deploy Image') {
