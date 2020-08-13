@@ -1,23 +1,23 @@
 pipeline {
   environment {
-    image = "node-test-pipeline-example"
+    image = "nswccd-cato-app"
     registry = "jshark2010/$image"
     registryCredential = 'dockerhub'
     dockerImage = ''
   }
   agent any
-  parameters {
-    string(name: 'PERSON', defaultValue: 'Mr Jenkins', description: 'Who should I say hello to?')
-
-    text(name: 'BIOGRAPHY', defaultValue: '', description: 'Enter some information about the person')
-
-    booleanParam(name: 'TOGGLE', defaultValue: true, description: 'Toggle this value')
-
-    choice(name: 'CHOICE', choices: ['One', 'Two', 'Three'], description: 'Pick something')
-
-    password(name: 'PASSWORD', defaultValue: 'SECRET', description: 'Enter a password')
-    // python3 reporting/exportPoam.py -c https://twistlock-console.oceast.cloudmegalodon.us -u jonathan@clearshark.com -p clearshark123! -o All -id sha256:c87e9a853fe046f445a1250c62432127db8b8b79e24ce73d68f6e74f86f147ac -t images -m reporting/POAM_Export_Sample.xlsx -eu "Jonathan Spigler"'
-  }
+  // parameters {
+  //   string(name: 'PERSON', defaultValue: 'Mr Jenkins', description: 'Who should I say hello to?')
+  //
+  //   text(name: 'BIOGRAPHY', defaultValue: '', description: 'Enter some information about the person')
+  //
+  //   booleanParam(name: 'TOGGLE', defaultValue: true, description: 'Toggle this value')
+  //
+  //   choice(name: 'CHOICE', choices: ['One', 'Two', 'Three'], description: 'Pick something')
+  //
+  //   password(name: 'PASSWORD', defaultValue: 'SECRET', description: 'Enter a password')
+  //   // python3 reporting/exportPoam.py -c https://twistlock-console.oceast.cloudmegalodon.us -u jonathan@clearshark.com -p clearshark123! -o All -id sha256:c87e9a853fe046f445a1250c62432127db8b8b79e24ce73d68f6e74f86f147ac -t images -m reporting/POAM_Export_Sample.xlsx -eu "Jonathan Spigler"'
+  // }
   stages {
     // stage('Cloning Git') {
     //   steps {
@@ -53,7 +53,7 @@ pipeline {
     }
     stage('Export POAM') {
       steps{
-        sh 'python3 reporting/exportPoam-0.1.3.py -c https://twistlock-console.oceast.cloudmegalodon.us -u jonathan@clearshark.com -p clearshark123! -o "ATO:ATO-06292020" -id "" -t images -m reporting/POAM_Export_Sample.xlsx -eu "Jonathan Spigler" -a "jshark"'
+        sh 'python3 reporting/exportPoam-0.1.3.py -c https://twistlock-console.oceast.cloudmegalodon.us -u jonathan@clearshark.com -p clearshark123! -o "ATO-NSWCCD-CATO-APP" -id "" -t images -m reporting/POAM_Export_Sample.xlsx -eu "Jonathan Spigler" -a "jshark"'
       }
     }
     stage('Deploy Image') {
