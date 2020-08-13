@@ -6,21 +6,18 @@ pipeline {
     dockerImage = ''
   }
   agent any
-  parameters {
-    string(name: 'USER', defaultValue: 'user@twistlock.awesome', description: 'Twistlock user with appropriate rights to query API')
-    password(name: 'PASSWORD', defaultValue: 'SECRET', description: 'Enter Twistlock user password which is used to query API')
-    string(name: 'CONSOLE', defaultValue: 'https://twistlock-console.prisma.com', description: 'PCC Console URL')
-    string(name: 'Collection', defaultValue: 'https://twistlock-console.prisma.com', description: 'PCC Console URL')
-    string(name: 'ID', defaultValue: '', description: 'Entity ID if targeting specific ID in PCC.  Leave blank if not applicable')
-    booleanParam(name: 'TOGGLE', defaultValue: true, description: 'Toggle this value')
-    choice(name: 'TARGET', choices: ['images', 'hosts', 'scans','containers'], description: 'Pick PCC target resource for POAM export')
-    string(name: 'EU', defaultValue: 'Johnny POAM', description: 'Exporting user.  Value will be placed in "Exporting User" cell in POAM spreadsheet')
-    string(name: 'TEMPLATE', defaultValue: 'reporting/POAM_Export_Sample.xlsx ', description: 'Location and filename of starting POAM xlsx template')
-
-
-    password(name: 'PASSWORD', defaultValue: 'SECRET', description: 'Enter a password')
-    // python3 reporting/exportPoam.py -c https://twistlock-console.oceast.cloudmegalodon.us -u jonathan@clearshark.com -p clearshark123! -o All -id sha256:c87e9a853fe046f445a1250c62432127db8b8b79e24ce73d68f6e74f86f147ac -t images -m reporting/POAM_Export_Sample.xlsx -eu "Jonathan Spigler"'
-  }
+  // parameters {
+  //   string(name: 'USER', defaultValue: 'user@twistlock.awesome', description: 'Twistlock user with appropriate rights to query API')
+  //   password(name: 'PASSWORD', defaultValue: 'SECRET', description: 'Enter Twistlock user password which is used to query API')
+  //   string(name: 'CONSOLE', defaultValue: 'https://twistlock-console.prisma.com', description: 'PCC Console URL')
+  //   string(name: 'Collection', defaultValue: 'https://twistlock-console.prisma.com', description: 'PCC Console URL')
+  //   string(name: 'ID', defaultValue: '', description: 'Entity ID if targeting specific ID in PCC.  Leave blank if not applicable')
+  //   booleanParam(name: 'TOGGLE', defaultValue: true, description: 'Toggle this value')
+  //   choice(name: 'TARGET', choices: ['images', 'hosts', 'scans','containers'], description: 'Pick PCC target resource for POAM export')
+  //   string(name: 'EU', defaultValue: 'Johnny POAM', description: 'Exporting user.  Value will be placed in "Exporting User" cell in POAM spreadsheet')
+  //   string(name: 'TEMPLATE', defaultValue: 'reporting/POAM_Export_Sample.xlsx ', description: 'Location and filename of starting POAM xlsx template')
+  //   // python3 reporting/exportPoam.py -c https://twistlock-console.oceast.cloudmegalodon.us -u jonathan@clearshark.com -p clearshark123! -o All -id sha256:c87e9a853fe046f445a1250c62432127db8b8b79e24ce73d68f6e74f86f147ac -t images -m reporting/POAM_Export_Sample.xlsx -eu "Jonathan Spigler"'
+  // }
   stages {
     // stage('Cloning Git') {
     //   steps {
