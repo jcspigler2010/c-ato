@@ -42,7 +42,7 @@ pipeline {
         }
       }
     }
-    stage('Scan images') {
+    stage('Scan nodejs image') {
       steps{
         prismaCloudScanImage ca: '',
         cert: '',
@@ -52,7 +52,22 @@ pipeline {
         logLevel: 'info',
         podmanPath: '',
         project: '',
-        resultsFile: "$app-$BUILD_NUMBER-prisma-cloud-scan-results.json",
+        resultsFile: "$nodejsimage-$BUILD_NUMBER-prisma-cloud-scan-results.json",
+        ignoreImageBuildTime:true
+      }
+
+    }
+    stage('Scan mysql image') {
+      steps{
+        prismaCloudScanImage ca: '',
+        cert: '',
+        dockerAddress: 'unix:///var/run/docker.sock',
+        image: "$mysqlImageid",
+        key: '',
+        logLevel: 'info',
+        podmanPath: '',
+        project: '',
+        resultsFile: "$mysqlimage-$BUILD_NUMBER-prisma-cloud-scan-results.json",
         ignoreImageBuildTime:true
       }
 
@@ -60,7 +75,8 @@ pipeline {
 
     stage('Publish results') {
       steps{
-        prismaCloudPublish resultsFilePattern: "$app-$BUILD_NUMBER-prisma-cloud-scan-results.json"
+        prismaCloudPublish resultsFilePattern: "$nodejsimage-$BUILD_NUMBER-prisma-cloud-scan-results.json"
+        prismaCloudPublish resultsFilePattern: "$mysqlimage-$BUILD_NUMBER-prisma-cloud-scan-results.json"
       }
     }
     stage('Export POAM') {
