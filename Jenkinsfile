@@ -76,6 +76,11 @@ pipeline {
     stage('Publish results') {
       steps{
         prismaCloudPublish resultsFilePattern: "$nodejsimage-$BUILD_NUMBER-prisma-cloud-scan-results.json"
+      }
+    }
+
+    stage('Publish results') {
+      steps{
         prismaCloudPublish resultsFilePattern: "$mysqlimage-$BUILD_NUMBER-prisma-cloud-scan-results.json"
       }
     }
