@@ -4,7 +4,7 @@ pipeline {
     mysqlimage = "nswccd-cato-app-mysql"
     registry = "jshark2010"
     registryCredential = 'dockerhub'
-    dockerImage = ''
+    
   }
   agent any
   // parameters {
@@ -29,7 +29,7 @@ pipeline {
       steps{
         script {
           dockerImageNodeJs = docker.build("$registry/$nodejsimage:$BUILD_NUMBER", "-f ./app/nodejs/Dockerfile ./app/nodejs")
-          nodejsImageid = dockerImage.imageName()
+          nodejsImageid = dockerImageNodeJs.imageName()
         }
       }
     }
@@ -37,7 +37,7 @@ pipeline {
       steps{
         script {
           dockerImageMysql = docker.build("$registry/$mysqlimage:$BUILD_NUMBER", "-f ./app/mysql/Dockerfile ./app/mysql")
-          mysqlImageid = dockerImage.imageName()
+          mysqlImageid = dockerImageMysql.imageName()
         }
       }
     }
