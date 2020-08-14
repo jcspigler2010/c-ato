@@ -1,7 +1,8 @@
 pipeline {
   environment {
-    image = "nswccd-cato-app"
-    registry = "jshark2010/$image"
+    nodejsimage = "nswccd-cato-app-nodejs"
+    mysqlimage = "nswccd-cato-app-mysql"
+    registry = "jshark2010"
     registryCredential = 'dockerhub'
     dockerImage = ''
   }
@@ -24,50 +25,73 @@ pipeline {
     //     git 'git@github.com:jcspigler2010/c-ato.git'
     //   }
     // }
-    stage('Building image') {
+    stage('Building nodejs') {
       steps{
         script {
-          dockerImage = docker.build("$registry:$BUILD_NUMBER", "-f ./app/Dockerfile ./app")
-          imageid = dockerImage.imageName()
+          dockerImageNodeJs = docker.build("$registry/$nodejsimage:$BUILD_NUMBER", "-f ./app/Dockerfile ./app/nodejs")
+          nodejsImageid = dockerImage.imageName()
         }
       }
     }
-    stage('Scan image') {
+    stage('Building mysql') {
+      steps{
+        script {
+          dockerImageMysql = docker.build("$registry/$mysqlimage:$BUILD_NUMBER", "-f ./app/Dockerfile ./app/mysql")
+          mysqlImageid = dockerImage.imageName()
+        }
+      }
+    }
+    stage('Scan images') {
       steps{
         prismaCloudScanImage ca: '',
         cert: '',
         dockerAddress: 'unix:///var/run/docker.sock',
-        image: "$imageid",
+        image: "$nodejsImageid",
         key: '',
         logLevel: 'info',
         podmanPath: '',
         project: '',
-        resultsFile: "$image-$BUILD_NUMBER-prisma-cloud-scan-results.json",
+        resultsFile: "$nodejsimage-$BUILD_NUMBER-prisma-cloud-scan-results.json",
+        ignoreImageBuildTime:true
+
+        prismaCloudScanImage ca: '',
+        cert: '',
+        dockerAddress: 'unix:///var/run/docker.sock',
+        image: "$mysqlImageid",
+        key: '',
+        logLevel: 'info',
+        podmanPath: '',
+        project: '',
+        resultsFile: "$mysqlimage-$BUILD_NUMBER-prisma-cloud-scan-results.json",
         ignoreImageBuildTime:true
       }
+
     }
     stage('Publish results') {
       steps{
-        prismaCloudPublish resultsFilePattern: "$image-$BUILD_NUMBER-prisma-cloud-scan-results.json"
+        prismaCloudPublish resultsFilePattern: "$nodejsimage-$BUILD_NUMBER-prisma-cloud-scan-results.json"
+        prismaCloudPublish resultsFilePattern: "$mysqlimage-$BUILD_NUMBER-prisma-cloud-scan-results.json"
       }
     }
     stage('Export POAM') {
       steps{
-        sh 'python3 reporting/exportPoam-0.1.3.py -c https://twistlock-console.oceast.cloudmegalodon.us -u jonathan@clearshark.com -p clearshark123! -o "ATO:ATO-NSWCCD-CATO-APP" -id "" -t scans -m reporting/POAM_Export_Sample.xlsx -eu "Jonathan Spigler" -a "jshark"'
+        sh 'python3 reporting/exportPoam-0.1.3.py -c https://twistlock-console.oceast.cloudmegalodon.us -u jonathan@clearshark.com -p clearshark123! -o "ATO:ATO-NSWCCD-CATO-APP" -id "" -t scans -m reporting/POAM_Export_Sample.xlsx -eu "Jonathan Spigler" -a "cato-app"'
       }
     }
     stage('Deploy Image') {
       steps{
         script {
           docker.withRegistry( '', registryCredential ) {
-            dockerImage.push()
+            dockerImageNodeJs.push()
+            dockerImageMysql.push()
           }
         }
       }
     }
     stage('Remove Unused docker image') {
       steps{
-        sh "docker rmi $registry:$BUILD_NUMBER"
+        sh "docker rmi $registry/$nodejsimage:$BUILD_NUMBER"
+        sh "docker rmi $registry/$mysqlimage:$BUILD_NUMBER"
       }
     }
   }

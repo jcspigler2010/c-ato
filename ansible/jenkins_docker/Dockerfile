@@ -10,9 +10,9 @@ RUN apt-get update \
       && rm -rf /var/lib/apt/lists/*
 RUN adduser jenkins sudo
 RUN echo "jenkins ALL=NOPASSWD: ALL" >> /etc/sudoers
-RUN sudo apt update
-RUN apt install python3-pip python-pip
-RUN pip3 install requests jinja2 argparse urllib3 openpyxl 
+RUN sudo apt update -y
+RUN apt install python3-pip -y 
+RUN pip3 install requests jinja2 argparse urllib3 openpyxl
 
 USER jenkins
 ENV JAVA_OPTS="-Xmx8192m"
