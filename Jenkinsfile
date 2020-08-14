@@ -28,7 +28,7 @@ pipeline {
     stage('Building nodejs') {
       steps{
         script {
-          dockerImageNodeJs = docker.build("$registry/$nodejsimage:$BUILD_NUMBER", "-f ./app/nodejs/Dockerfile")
+          dockerImageNodeJs = docker.build("$registry/$nodejsimage:$BUILD_NUMBER", "-f ./app/nodejs/Dockerfile ./app/nodejs")
           nodejsImageid = dockerImage.imageName()
         }
       }
@@ -36,7 +36,7 @@ pipeline {
     stage('Building mysql') {
       steps{
         script {
-          dockerImageMysql = docker.build("$registry/$mysqlimage:$BUILD_NUMBER", "-f ./app/mysql/Dockerfile")
+          dockerImageMysql = docker.build("$registry/$mysqlimage:$BUILD_NUMBER", "-f ./app/mysql/Dockerfile ./app/mysql")
           mysqlImageid = dockerImage.imageName()
         }
       }
