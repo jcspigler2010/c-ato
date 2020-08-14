@@ -4,7 +4,8 @@ pipeline {
     mysqlimage = "nswccd-cato-app-mysql"
     registry = "jshark2010"
     registryCredential = 'dockerhub'
-    
+    app = "nswccd-cato-app"
+
   }
   agent any
   // parameters {
@@ -46,31 +47,20 @@ pipeline {
         prismaCloudScanImage ca: '',
         cert: '',
         dockerAddress: 'unix:///var/run/docker.sock',
-        image: "$nodejsImageid",
+        image: "$nodejsImageid","$mysqlImageid"
         key: '',
         logLevel: 'info',
         podmanPath: '',
         project: '',
-        resultsFile: "$nodejsimage-$BUILD_NUMBER-prisma-cloud-scan-results.json",
-        ignoreImageBuildTime:true
-
-        prismaCloudScanImage ca: '',
-        cert: '',
-        dockerAddress: 'unix:///var/run/docker.sock',
-        image: "$mysqlImageid",
-        key: '',
-        logLevel: 'info',
-        podmanPath: '',
-        project: '',
-        resultsFile: "$mysqlimage-$BUILD_NUMBER-prisma-cloud-scan-results.json",
+        resultsFile: "$app-$BUILD_NUMBER-prisma-cloud-scan-results.json",
         ignoreImageBuildTime:true
       }
 
     }
+
     stage('Publish results') {
       steps{
-        prismaCloudPublish resultsFilePattern: "$nodejsimage-$BUILD_NUMBER-prisma-cloud-scan-results.json"
-        prismaCloudPublish resultsFilePattern: "$mysqlimage-$BUILD_NUMBER-prisma-cloud-scan-results.json"
+        prismaCloudPublish resultsFilePattern: "$app-$BUILD_NUMBER-prisma-cloud-scan-results.json"
       }
     }
     stage('Export POAM') {
