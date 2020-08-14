@@ -47,7 +47,7 @@ pipeline {
         prismaCloudScanImage ca: '',
         cert: '',
         dockerAddress: 'unix:///var/run/docker.sock',
-        image: "$nodejsImageid","$mysqlImageid"
+        image: "$nodejsImageid,$mysqlImageid",
         key: '',
         logLevel: 'info',
         podmanPath: '',
