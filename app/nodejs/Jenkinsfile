@@ -8,11 +8,18 @@ pipeline {
   agent any
 
   stages {
-    stage('Cloning Git') {
+
+    stage('Clone another repository to subdir') {
       steps {
-        git credentialsId: 'cato-tools', url: 'git@github.com:jcspigler2010/cato-tools.git'
+        sh 'rm cato-tools -rf; mkdir cato-tools'
+        dir ('cato-tools') {
+          git branch: 'master',
+            credentialsId: 'cato-tools',
+            url: 'git@github.com:jcspigler2010/cato-tools.git'
+        }
       }
     }
+
     stage('Building nodejs') {
       steps{
         script {
