@@ -56,12 +56,15 @@ pipeline {
       }
     }
 
-
-    stage('CATO-collection query Powershell Script') {
-      steps{
-        powershell label: 'CATO-Collection Powershell', script: 'cato-tools/PublicSector/PrismaCloudCompute/Continuous_Authority_to_Operate/CATO-collection_query.ps1 ATO:ATO-NSWCCD-CATO-APP jonathan@clearshark.com "clearshark123!" "https://twistlock-console.oceast.cloudmegalodon.us"'
-      }
+    stage('Test Powershell'){
+       powershell 'Write-Output "Hello, World!"'
     }
+    //
+    // stage('CATO-collection query Powershell Script') {
+    //   steps{
+    //     powershell label: 'CATO-Collection Powershell', script: 'cato-tools/PublicSector/PrismaCloudCompute/Continuous_Authority_to_Operate/CATO-collection_query.ps1 ATO:ATO-NSWCCD-CATO-APP jonathan@clearshark.com "clearshark123!" "https://twistlock-console.oceast.cloudmegalodon.us"'
+    //   }
+    // }
     //
     // stage('Export POAM') {
     //   steps{
