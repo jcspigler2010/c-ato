@@ -9,6 +9,12 @@ pipeline {
 
   stages {
 
+    stage('Test Powershell') {
+      steps{
+        powershell label: 'Verify Powershell is installed', script: 'Write-Host "Powershell is installed!"'
+      }
+    }
+    
     stage('Clone another repository to subdir') {
       steps {
         sh 'rm cato-tools -rf; mkdir cato-tools'
