@@ -58,7 +58,7 @@ pipeline {
 
     stage('Test Powershell'){
       steps{
-       powershell 'Write-Output "Hello, World!"'
+       pwsh 'Write-Output "Hello, World!"'
      }
     }
     //
