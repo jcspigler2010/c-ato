@@ -45,6 +45,7 @@ pipeline {
     }
 
     stage('CATO-Collection_query Script') {
+      steps{
       powershell label: 'CATO-Collection_query', script: '''# CATO-collection_query.ps1
 #
 # This script is used for the "Continuous Authority to Operate" concepts to identify all vulnerabilities associated with a collection of images
@@ -254,6 +255,7 @@ else
     write-host "No images found in collection: $arg1"
     }
 '''
+}
     }
 
     stage('Export POAM') {
