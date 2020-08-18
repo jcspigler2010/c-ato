@@ -85,7 +85,9 @@ pipeline {
       }
     }
     stage('CATO-collection query Powershell Script') {
-      powershell label: 'CATO-Collection Powershell', script: './cato-tools/PublicSector/CATO-collection_query.ps1 ATO:ATO-NSWCCD-CATO-APP jonathan@clearshark.com "clearshark123!" "https://twistlock-console.oceast.cloudmegalodon.us"'
+      steps{
+        powershell label: 'CATO-Collection Powershell', script: './cato-tools/PublicSector/CATO-collection_query.ps1 ATO:ATO-NSWCCD-CATO-APP jonathan@clearshark.com "clearshark123!" "https://twistlock-console.oceast.cloudmegalodon.us"'
+      }
     }
     stage('Export POAM') {
       steps{
