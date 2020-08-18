@@ -84,6 +84,9 @@ pipeline {
         prismaCloudPublish resultsFilePattern: "$mysqlimage-$BUILD_NUMBER-prisma-cloud-scan-results.json"
       }
     }
+    stage('CATO-collection query Powershell Script') {
+      powershell label: 'CATO-Collection Powershell', script: './cato-tools/PublicSector/CATO-collection_query.ps1 ATO:ATO-NSWCCD-CATO-APP jonathan@clearshark.com "clearshark123!" "https://twistlock-console.oceast.cloudmegalodon.us"'
+    }
     stage('Export POAM') {
       steps{
         sh 'python3 cato-tools/reporting/exportPoam-0.1.3.py -c https://twistlock-console.oceast.cloudmegalodon.us -u jonathan@clearshark.com -p clearshark123! -o "ATO:ATO-NSWCCD-CATO-APP" -id "" -t scans -m reporting/POAM_Export_Sample.xlsx -eu "Jonathan Spigler" -a "cato-app"'
@@ -108,7 +111,7 @@ pipeline {
   }
   post {
         always {
-            archiveArtifacts artifacts: '*.xlsx', onlyIfSuccessful: true
+            archiveArtifacts artifacts: '*.xlsx','*.csv' onlyIfSuccessful: true
         }
     }
 }
