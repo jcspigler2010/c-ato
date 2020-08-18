@@ -8,11 +8,11 @@ pipeline {
   agent any
 
   stages {
-    // stage('Cloning Git') {
-    //   steps {
-    //     git 'git@github.com:jcspigler2010/c-ato.git'
-    //   }
-    // }
+    stage('Cloning Git') {
+      steps {
+        git credentialsId: 'cato-tools', url: 'git@github.com:jcspigler2010/cato-tools.git'
+      }
+    }
     stage('Building nodejs') {
       steps{
         script {
@@ -37,11 +37,6 @@ pipeline {
 
     }
 
-    stage('Cloning Git') {
-      steps {
-        git 'git@github.com:jcspigler2010/cato-tools.git'
-      }
-    }
     stage('Publish nodejs results results') {
       steps{
         prismaCloudPublish resultsFilePattern: "$nodejsimage-$BUILD_NUMBER-prisma-cloud-scan-results.json"
