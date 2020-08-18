@@ -57,7 +57,9 @@ pipeline {
     }
 
     stage('Test Powershell'){
+      steps{
        powershell 'Write-Output "Hello, World!"'
+     }
     }
     //
     // stage('CATO-collection query Powershell Script') {
