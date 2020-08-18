@@ -1,0 +1,72 @@
+pipeline {
+  environment {
+    nodejsimage = "nswccd-cato-app-nodejs"
+    registry = "jshark2010"
+    registryCredential = 'dockerhub'
+
+  }
+  agent any
+
+  stages {
+    // stage('Cloning Git') {
+    //   steps {
+    //     git 'git@github.com:jcspigler2010/c-ato.git'
+    //   }
+    // }
+    stage('Building nodejs') {
+      steps{
+        script {
+          dockerImageNodeJs = docker.build("$registry/$nodejsimage:$BUILD_NUMBER", "-f ./app/nodejs/Dockerfile ./app/nodejs")
+          nodejsImageid = dockerImageNodeJs.imageName()
+        }
+      }
+    }
+    stage('Scan nodejs image') {
+      steps{
+        prismaCloudScanImage ca: '',
+        cert: '',
+        dockerAddress: 'unix:///var/run/docker.sock',
+        image: "$nodejsImageid",
+        key: '',
+        logLevel: 'info',
+        podmanPath: '',
+        project: '',
+        resultsFile: "$nodejsimage-$BUILD_NUMBER-prisma-cloud-scan-results.json",
+        ignoreImageBuildTime:true
+      }
+
+    }
+
+
+    stage('Publish nodejs results results') {
+      steps{
+        prismaCloudPublish resultsFilePattern: "$nodejsimage-$BUILD_NUMBER-prisma-cloud-scan-results.json"
+      }
+    }
+
+    stage('Export POAM') {
+      steps{
+        sh 'python3 reporting/exportPoam-0.1.3.py -c https://twistlock-console.oceast.cloudmegalodon.us -u jonathan@clearshark.com -p clearshark123! -o "ATO:ATO-NSWCCD-CATO-APP" -id "" -t scans -m reporting/POAM_Export_Sample.xlsx -eu "Jonathan Spigler" -a "cato-app"'
+      }
+    }
+    stage('Deploy Image') {
+      steps{
+        script {
+          docker.withRegistry( '', registryCredential ) {
+            dockerImageNodeJs.push()
+          }
+        }
+      }
+    }
+    stage('Remove Unused docker image') {
+      steps{
+        sh "docker rmi $registry/$nodejsimage:$BUILD_NUMBER"
+      }
+    }
+  }
+  post {
+        always {
+            archiveArtifacts artifacts: '*.xlsx', onlyIfSuccessful: true
+        }
+    }
+}
