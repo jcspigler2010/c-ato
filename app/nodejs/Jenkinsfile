@@ -21,9 +21,11 @@ pipeline {
     }
 
     stage('Check if subdirectory exists') {
-      sh 'ls -al'
+      steps{
+        sh 'ls -al'
+      }
     }
-    
+
     stage('Building nodejs') {
       steps{
         script {
