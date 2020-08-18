@@ -86,7 +86,7 @@ pipeline {
     }
     stage('Export POAM') {
       steps{
-        sh 'python3 reporting/exportPoam-0.1.3.py -c https://twistlock-console.oceast.cloudmegalodon.us -u jonathan@clearshark.com -p clearshark123! -o "ATO:ATO-NSWCCD-CATO-APP" -id "" -t scans -m reporting/POAM_Export_Sample.xlsx -eu "Jonathan Spigler" -a "cato-app"'
+        sh 'python3 cato-tools/reporting/exportPoam-0.1.3.py -c https://twistlock-console.oceast.cloudmegalodon.us -u jonathan@clearshark.com -p clearshark123! -o "ATO:ATO-NSWCCD-CATO-APP" -id "" -t scans -m reporting/POAM_Export_Sample.xlsx -eu "Jonathan Spigler" -a "cato-app"'
       }
     }
     stage('Deploy Image') {
