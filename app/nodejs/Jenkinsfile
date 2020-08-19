@@ -1,6 +1,6 @@
 pipeline {
   environment {
-    nodejsimage = "nswccd-cato-app-nodejs"
+    nodejsimage = "cato-nodejs"
     registry = "jshark2010"
     registryCredential = 'dockerhub'
 
