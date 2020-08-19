@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cato-nodejs
+  labels:
+    app: cato
+    ATO: "ATO-NSWCCD-CATO-APP"
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: cato
+  template:
+    metadata:
+      labels:
+        app: cato
+        ATO: "ATO-NSWCCD-CATO-APP"
+    spec:
+      containers:
+      - name: cato-nodejs
+        image: jshark2010/cato-nodejs:2
+        ports:
+        - containerPort: 3000
