@@ -1,0 +1,7 @@
+reporting/__pycache__/**
+reporting/.ipynb_checkpoints/**
+misc/**
+trash/**
+**.ipynb
+**.DS_Store
+.gitignore
