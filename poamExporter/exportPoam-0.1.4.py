@@ -21,7 +21,7 @@ from openpyxl import Workbook
 from openpyxl.worksheet.datavalidation import DataValidation
 import json
 from  datetime  import date
-from mapping import  control_vulnerability_description_map, security_control_number_map, office_org_map, security_checks_map, resources_required_map, scheduled_completion_date_map, milestone_with_completion_dates_map, milestone_changes_map, source_identifying_vulnerability_map, status_map, comments_map, raw_severity_map, devices_affected_map, mitigations_inhouse_map, predisposing_conditions_map, severity_map, relevance_of_threat_map, threat_description_map, likelihood_map, impact_map, impact_description_map, residual_risk_level_map, recommendations_map, resulting_residual_risk_after_proposed_mitigations_map
+from mapping import  control_vulnerability_description_map, security_control_number_map, office_org_map, security_checks_map, resources_required_map, scheduled_completion_date_map, milestone_with_completion_dates_map, milestone_changes_map, source_identifying_vulnerability_map, status_map, comments_map, raw_severity_map, devices_affected_map, mitigations_inhouse_map, predisposing_conditions_map, severity_map, relevance_of_threat_map, threat_description_map, likelihood_map, impact_map, impact_description_map, residual_risk_level_map, recommendations_map, resulting_residual_risk_after_proposed_mitigations_map 
 
 
 # In[100]:
@@ -35,7 +35,7 @@ class imgRequestError(Exception):
 
 
 def import_poam_template_xlsx(file):
-
+    
     workbook = load_workbook(filename=file)
     return workbook
 
@@ -44,7 +44,7 @@ def import_poam_template_xlsx(file):
 
 
 def create_label_dictionary(image):
-
+    
     try:
         label_dict = {}
         for label in image['labels']:
@@ -59,7 +59,7 @@ def create_label_dictionary(image):
 
 
 def control_vulnerability_description(key,vulnerability):
-
+    
     return vulnerability['description']
 
 
@@ -82,7 +82,7 @@ def security_control_number():
 
 
 def return_label(label_dict,target_label):
-
+    
     try:
         returned_label = label_dict[target_label]
         return returned_label
@@ -94,9 +94,9 @@ def return_label(label_dict,target_label):
 
 
 def security_checks(key,vulnerability):
-
+    
     return vulnerability['cve']
-
+    
     pass
 
 
@@ -104,7 +104,7 @@ def security_checks(key,vulnerability):
 
 
 def resources_required(key):
-
+    
     return "eMASS populated"
 
     pass
@@ -143,7 +143,7 @@ def milestone_changes(key,vulnerability):
 
 
 def source_identifying_vulnerability(key):
-
+    
     return "Scanned by Prisma Cloud Compute"
 
 
@@ -166,7 +166,7 @@ def comments(key,vulnerability):
 
 
 def raw_severity(key,vulnerability):
-
+    
     raw_severity = vulnerability['severity']
     return raw_severity
 
@@ -183,7 +183,7 @@ def devices_affected(key,image):
         except:
             pass
     elif key == 'scans':
-        try:
+        try:    
             for tag in image['tags']:
                 devices_affected+=tag['registry']+"/"+tag['repo']+":"+tag['tag']
         except:
@@ -191,7 +191,7 @@ def devices_affected(key,image):
     else:
         print("Woops!")
         devices_affected = "missed em all"
-    return devices_affected
+    return devices_affected 
 
 
 # In[118]:
@@ -212,7 +212,7 @@ def predisposing_conditions(key):
 
 
 def severity(key):
-
+    
     return "Moderate"
 
 
@@ -291,7 +291,7 @@ def parse_vulnTagInfos(key,vulnerability,vulnTag):
 def create_excel_drop_down():
     dv = DataValidation(type="list", formula1='"Very Low, Low, Moderate, High, Very High"')
     return dv
-
+    
 
 
 # In[131]:
@@ -306,65 +306,65 @@ def define_cell(column_map,row):
 
 
 def populate_poam_template_xlsx(poam,prisma_json,exported_by):
-
+    
     row = 8
     sheet = poam.active
 
     for key, value in prisma_json.items():
-
+        
         if key == 'images':
-
+            
             print("Listing Images")
-
+            
             for entity in prisma_json['images']:
-
+                
                 label_dict = create_label_dictionary(entity)
-
+                
                 for vulnerability in entity['vulnerabilities']:
-
+                    
                     vulnerability_poam_data(key,entity,vulnerability,label_dict,row,sheet)
                     row += 1
-
+                    
         if key == 'containers':
             print("Listing containers")
-
+            
             for entity in prisma_json['containers']:
-
+                
                 label_dict = create_label_dictionary(entity)
-
+                
                 for vulnerability in entity['vulnerabilities']:
-
+                    
                     vulnerability_poam_data(key,entity,vulnerability,label_dict,row,sheet)
                     row += 1
-
+                    
         if key == 'scans':
             print("Listing scans")
-
+            
             for entity in prisma_json['scans']:
 #                 print(entity['entityInfo']['tags'])
                 label_dict = create_label_dictionary(entity['entityInfo'])
 
                 for vulnerability in entity['entityInfo']['vulnerabilities']:
-
+                    
                     vulnerability_poam_data(key,entity,vulnerability,label_dict,row,sheet)
-
+                    
                     row += 1
 
         if key == 'hosts':
             print("Listing hosts")
-
+            
             for entity in prisma_json['hosts']:
-
+                
                 label_dict = create_label_dictionary(entity)
-
+                
                 for vulnerability in entity['vulnerabilities']:
-
+                    
                     vulnerability_poam_data(key,entity,vulnerability,label_dict,row,sheet)
                     row += 1
-
+        
 
     poam_header_data(label_dict,sheet,exported_by)
-
+    
     return poam
 
 
@@ -446,7 +446,7 @@ def vulnerability_poam_data(key,entity,vulnerability,label_dict,row,sheet):
 
 
 def poam_header_data(label_dict,sheet,exported_by):
-
+    
     sheet["C2"] = date.today()
     sheet["C3"] = exported_by
     sheet["C6"] = return_label(label_dict,'DOD_IT_REG_NO')
@@ -456,7 +456,7 @@ def poam_header_data(label_dict,sheet,exported_by):
     sheet["J6"] = return_label(label_dict,'POC_EMAIL')
     sheet["J5"] = return_label(label_dict,'POC_EMAIL')
     sheet["C4"] = return_label(label_dict,'DOD_COMPONENT')
-
+    
 
 
 # In[138]:
@@ -472,6 +472,12 @@ def output_poam_xlsx(poam,app,build):
 
 
 # In[184]:
+
+
+# prisma_json = get_prisma_data_json('https://twistlock-console.oceast.cloudmegalodon.us','jonathan@clearshark.com','clearshark123!','ATO:ATO-06292020','images,scans','')
+# poam  = import_poam_template_xlsx('POAM_Export_Sample.xlsx')
+# new_poam = populate_poam_template_xlsx(poam,prisma_json,'Jonathan Spigler')
+# output_poam_xlsx(new_poam,'test-app','1')
 
 
 # In[5]:
@@ -500,10 +506,11 @@ def parse_args():
     p.add_argument('-m','--poam_template',metavar='POAM_TEMP',help='specify xlsx POAM template')
     p.add_argument('-eu','--export_user',metavar='EXPORT_USER',help='User exporting POAM')
     p.add_argument('-a','--app',metavar='APP',help='Name of App or system being ATO\'d ')
+    p.add_argument('-b','--build',metavar='BUILD',help='Build Number for app, can also use \"latest\"')
     args = p.parse_args()
 
     # Populate args by env vars if they're set
-    envvar_map = {'TL_USER':'user','TL_CONSOLE':'console','TL_PASS':'password','TL_COLLECT':'collection','TL_ID':'entity_id','TL_TARGET':'target','POAM_TEMP':'poam_template','export_user':'EXPORT_USER'}
+    envvar_map = {'TL_USER':'user','TL_CONSOLE':'console','TL_PASS':'password','TL_COLLECT':'collection','TL_ID':'entity_id','TL_TARGET':'target','POAM_TEMP':'poam_template','export_user':'EXPORT_USER','build':'BUILD'}
     for evar in envvar_map.keys():
         evar_val = os.environ.get(evar,None)
         if evar_val is not None:
@@ -518,7 +525,7 @@ def parse_args():
         args.console = raw_input('Enter console url: ')
     else:
         arg_errs.append('console (-c,--console)')
-
+        
     if getattr(args,'user',None) is None:
         args.user = raw_input('Enter username: ')
     else:
@@ -548,16 +555,21 @@ def parse_args():
         args.poam_template = raw_input('')
     else:
         arg_errs.append('poam_template (-m, --poam_template)')
-
+        
     if getattr(args,'export_user',None) is None:
         args.export_user = raw_input('Please enter user name who is exporting the POAM: ')
     else:
         arg_errs.append('export_user (-eu, --export_user)')
-
+        
     if getattr(args,'app',None) is None:
         args.export_user = raw_input(' ')
     else:
         arg_errs.append('app (-a, --app)')
+        
+    if getattr(args,'build',None) is None:
+        args.build = raw_input(' ')
+    else:
+        arg_errs.append('build (-b, --build)')
 
     return args
 
@@ -576,7 +588,7 @@ def get_prisma_data_json(console,user,password,collection,target,entity_id):
         json_return[t] = image_req.json()
         if image_req.status_code != 200:
             raise imgRequestError('GET /api/v1/'+target+' {} {}'.format(image_req.status_code,image_req.reason))
-
+            
     return json_return
 
 
@@ -592,23 +604,23 @@ def main():
     except imgRequestError as e:
         print("Error querying API: {}".format(e))
         return 3
-
+    
         #Import POAM template specified in args
     try:
         poam = import_poam_template_xlsx(args.poam_template)
         sheet = poam.active
-    except imgReqestError as e:
+    except imgRequestError as e:
         print("Error importing template: {}".format(e))
-
-
+    
+    
     try:
         new_poam = populate_poam_template_xlsx(poam,prisma_json,args.export_user)
-    except imgReqestError as e:
+    except imgRequestError as e:
         print("Error creating poam: {}".format(e))
-
+    
     try:
-        output_poam_xlsx(new_poam,args.app,1)
-    except imgReqestError as e:
+        output_poam_xlsx(new_poam,args.app,args.build)
+    except imgRequestError as e:
         print("Error saving poam: {}".format(e))
 
     return 0
@@ -619,3 +631,4 @@ def main():
 
 if __name__ == '__main__':
     sys.exit(main())
+
