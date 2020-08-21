@@ -1,7 +1,7 @@
-reporting/__pycache__/**
-reporting/.ipynb_checkpoints/**
-reporting/misc/**
-reporting/trash/**
+poamExporter/__pycache__/**
+poamExporter/.ipynb_checkpoints/**
+poamExporter/misc/**
+poamExporter/trash/**
 **.ipynb
 **.DS_Store
 .gitignore
