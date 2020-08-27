@@ -4,7 +4,7 @@ metadata:
   name: cato-nodejs
   labels:
     app: cato
-    ATO: "ATO-NSWCCD-CATO-APP"
+    ATO: "CATO-08252020"
 spec:
   replicas: 3
   selector:
@@ -14,10 +14,10 @@ spec:
     metadata:
       labels:
         app: cato
-        ATO: "ATO-NSWCCD-CATO-APP"
+        ATO: "CATO-08252020"
     spec:
       containers:
       - name: cato-nodejs
-        image: jshark2010/cato-nodejs:2
+        image: jshark2010/cato-app-nodejs-v1:4
         ports:
         - containerPort: 3000
