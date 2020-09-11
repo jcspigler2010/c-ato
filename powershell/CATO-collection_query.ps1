@@ -16,7 +16,7 @@
 #
 # Debugging: $debugpreference = "continue" at the powershell command prompt for detailed output of the script
 
-param($arg1,$arg2,$arg3)
+param($arg1,$arg2,$arg3,$arg4)
 
 
 if(!$arg1)
@@ -30,7 +30,7 @@ else
     write-host "Checking for images within collection: $arg1"
     }
 # variables
-$tlconsole = "https://twistlock-console.oceast.cloudmegalodon.us"
+$tlconsole = $arg4
 $collection_images = @()
 $global:unique_cve = @() # array of unique CVEs
 $global:cve_packages = @{} # hash table of CVEs and their associated packages
@@ -93,7 +93,10 @@ function Unique_CVE([string]$image_name, [array]$cves)
     } # end of Unique_CVE function
 
 # We will need credentials to connect so we will ask the user
-$cred = Get-Credential
+
+$password = ConvertTo-SecureString $arg3 -AsPlainText -Force
+
+$cred = New-Object System.Management.Automation.PSCredential ($arg2, $password)
 
 # $cred = Get-Credential -Credential $arg3
 #
