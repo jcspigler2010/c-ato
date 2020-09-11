@@ -4,7 +4,7 @@ metadata:
   name: cato-nodejs
   labels:
     app: cato
-    ATO: "CATO-08252020"
+    ATO-PACKAGE: "CATO-09142020"
 spec:
   replicas: 3
   selector:
@@ -14,7 +14,7 @@ spec:
     metadata:
       labels:
         app: cato
-        ATO: "CATO-08252020"
+        ATO-PACKAGE: "CATO-09142020"
     spec:
       containers:
       - name: cato-nodejs
