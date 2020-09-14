@@ -15,12 +15,6 @@ pipeline {
       }
     }
 
-    stage('Check if subdirectory exists') {
-      steps{
-        sh 'ls -al'
-      }
-    }
-
     stage('Building nodejs') {
       steps{
         script {
@@ -29,6 +23,7 @@ pipeline {
         }
       }
     }
+
     stage('Scan nodejs image') {
       steps{
         prismaCloudScanImage ca: '',
