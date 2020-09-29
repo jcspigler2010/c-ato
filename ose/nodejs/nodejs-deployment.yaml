@@ -18,6 +18,6 @@ spec:
     spec:
       containers:
       - name: cato-nodejs
-        image: jshark2010/cato-nodejs-v1:7
+        image: jshark2010/cato-nodejs-v1:2
         ports:
         - containerPort: 3000
