@@ -1,6 +1,6 @@
 pipeline {
   environment {
-    nodejsimage = "cato-nodejs-v1"
+    nodejsimage = "cato-app-nodejs-0.1"
     registry = "jshark2010"
     registryCredential = 'dockerhub'
     ATO_PACKAGE = "CATO-12032020"
