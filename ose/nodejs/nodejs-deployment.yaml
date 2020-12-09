@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: cato-nodejs
+  name: cato-nodejs-test
   labels:
     app: cato
     ATO-PACKAGE: "CATO-09142020"
@@ -17,7 +17,7 @@ spec:
         ATO-PACKAGE: "CATO-09142020"
     spec:
       containers:
-      - name: cato-nodejs
-        image: jshark2010/cato-nodejs-v1:2
+      - name: cato-nodejs-test
+        image: jshark2010/cato-app-nodejs-0.1:10
         ports:
         - containerPort: 3000
